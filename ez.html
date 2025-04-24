@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>九宮格圖片拼圖</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 2px;
+      margin: 20px auto;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: #ddd;
+      background-size: 300px 300px;
+      background-repeat: no-repeat;
+    }
+    input[type="file"] {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>九宮格圖片拼圖</h1>
+  <input type="file" id="upload" accept="image/*">
+  <div id="grid"></div>
+
+  <script>
+    const upload = document.getElementById('upload');
+    const grid = document.getElementById('grid');
+
+    upload.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = event => {
+        const img = new Image();
+        img.onload = () => {
+          grid.innerHTML = '';
+          for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+              const cell = document.createElement('div');
+              cell.className = 'cell';
+              const x = col * -100;
+              const y = row * -100;
+              cell.style.backgroundImage = `url(${event.target.result})`;
+              cell.style.backgroundPosition = `${x}px ${y}px`;
+              grid.appendChild(cell);
+            }
+          }
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  </script>
+</body>
+</html>

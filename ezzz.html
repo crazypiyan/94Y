@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>粉紅羊</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f3;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #e91e63;
+    }
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(3, 150px);
+      grid-template-rows: repeat(3, 150px);
+      gap: 4px;
+      justify-content: center;
+      margin: 20px auto;
+      cursor: pointer;
+    }
+    .cell {
+      width: 150px;
+      height: 150px;
+      background-image: url('20250424_1407_Blocky World, Pink Sheep_simple_compose_01jsk6e68tfq29k8snxqgfatz4.png');
+      background-size: 450px 450px;
+      background-repeat: no-repeat;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .note {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>王均洧的粉紅羊</h1>
+  <p class="note"></p>
+  <div id="grid"></div>
+
+  <script>
+    const grid = document.getElementById('grid');
+
+    const pieces = [];
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        pieces.push({
+          x: col * -150,
+          y: row * -150
+        });
+      }
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function drawGrid() {
+      grid.innerHTML = '';
+      const shuffled = [...pieces];
+      shuffle(shuffled);
+
+      shuffled.forEach(pos => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.style.backgroundPosition = `${pos.x}px ${pos.y}px`;
+        grid.appendChild(cell);
+      });
+    }
+
+    grid.addEventListener('click', drawGrid);
+    drawGrid();
+  </script>
+</body>
+</html>
